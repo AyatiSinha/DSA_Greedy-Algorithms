@@ -2,27 +2,30 @@
 using namespace std;
 
 bool func (string &s) {
-    int n = s.length();
-    int max = 0, min = 0;
-    for (int i = 0; i < n; i++) {
-        if (min < 0) return false;
-        if (s[i] == '(') min ++, max++;
-        else if (s[i] == ')') {
-            if (min-1 < 0) {
-                if (max > 0) max--;
-                else return false;
-            }
-            else {min--; max--;}
-        } 
-        else {
-            if (min-1 >= 0) min--;
-            max++;
-        }
+   int mini = 0, maxi = 0, n = s.length();
+   for (int i = 0; i < n; i++)
+   {
+    if (s[i] == '(') {
+        mini++;
+        maxi++;
     }
-    if (min == 0) return true;
-    return false;
+    else if (s[i] == ')') {
+        mini--;
+        maxi--;
+    }
+    else {
+        mini--;
+        maxi++;
+    }
+    if (mini < 0) mini = 0;
+    if (maxi < 0) return false;
+   }
+   return mini == 0; 
 }
 
 int main () { 
+    string s = "()*)*()";
+    bool val = func (s);
+    cout << val << endl;
     return 0;
 }
